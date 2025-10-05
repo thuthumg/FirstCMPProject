@@ -1,4 +1,4 @@
-package org.example.firstcmpproject.home.ui
+package org.example.firstcmpproject.movies.home.ui
 
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.size
