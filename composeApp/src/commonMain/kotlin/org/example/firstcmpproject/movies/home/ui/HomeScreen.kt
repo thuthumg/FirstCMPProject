@@ -7,14 +7,34 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.example.firstcmpproject.core.MARGIN_CARD_MEDIUM_2
 import org.example.firstcmpproject.core.MARGIN_MEDIUM
+import org.example.firstcmpproject.movies.home.state.HomeState
+import org.example.firstcmpproject.movies.home.viewmodel.HomeViewModel
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
-fun HomeScreen(onTapMovie: (Int) -> Unit) {
+fun HomeRoute(
+    viewModel: HomeViewModel,
+    onTapMovie: (Int) -> Unit
+) {
+
+    //observe
+    val state by viewModel.state.collectAsStateWithLifecycle()
+
+    HomeScreen(
+        state = state,
+        onTapMovie = onTapMovie
+    )
+}
+@Composable
+fun HomeScreen(
+    state: HomeState,
+    onTapMovie: (Int) -> Unit) {
     Scaffold(
         topBar = {
             HomeAppBar()
@@ -33,9 +53,14 @@ fun HomeScreen(onTapMovie: (Int) -> Unit) {
 
             item {
                 //Feature Movie
-               FeatureMovie(onTapMovie = { movieId ->
-                   onTapMovie(movieId)
-               })
+                state.featureMovie?.let {
+                    FeatureMovie(
+                        movieVO= state.featureMovie,
+                        onTapMovie = { movieId ->
+                            onTapMovie(movieId)
+                        })
+                }
+
             }
 
             //Spacer
@@ -44,8 +69,11 @@ fun HomeScreen(onTapMovie: (Int) -> Unit) {
             ) }
 
             //Moves and Categories
-            items(10){
-               CategoriesLabelAndMovies(onTapMovie = { movieId ->
+            items(state.moviesByGenre.count()){ index ->
+               CategoriesLabelAndMovies(
+                   genre = state.moviesByGenre[index].first,
+                   movieList = state.moviesByGenre[index].second,
+                   onTapMovie = { movieId ->
                    onTapMovie(movieId)
                })
             }
@@ -58,5 +86,7 @@ fun HomeScreen(onTapMovie: (Int) -> Unit) {
 @Preview
 @Composable
 fun HomeScreenPreview(modifier: Modifier = Modifier) {
-    HomeScreen(onTapMovie = {})
+    HomeScreen(
+        state = HomeState(),
+        onTapMovie = {})
 }

@@ -14,14 +14,19 @@ import org.example.firstcmpproject.core.MARGIN_MEDIUM
 import org.example.firstcmpproject.core.MARGIN_MEDIUM_2
 import org.example.firstcmpproject.core.TEXT_LARGE
 import org.example.firstcmpproject.movies.MovieItem
+import org.example.firstcmpproject.movies.data.vos.GenreVO
+import org.example.firstcmpproject.movies.data.vos.MovieVO
 
 @Composable
-fun CategoriesLabelAndMovies(onTapMovie: (Int) -> Unit) {
+fun CategoriesLabelAndMovies(
+    genre: GenreVO,
+    movieList: List<MovieVO>,
+    onTapMovie: (Int) -> Unit) {
     Column (
         verticalArrangement = Arrangement.spacedBy(MARGIN_MEDIUM),
         modifier = Modifier.padding(top = MARGIN_MEDIUM_2)
     ){
-        Text("Today's Top Picks For You",
+        Text(genre.name,
             color = Color.White,
             fontWeight = FontWeight.Bold,
             fontSize = TEXT_LARGE,
@@ -32,8 +37,10 @@ fun CategoriesLabelAndMovies(onTapMovie: (Int) -> Unit) {
             horizontalArrangement = Arrangement.spacedBy(MARGIN_MEDIUM),
             contentPadding = PaddingValues(horizontal = MARGIN_MEDIUM_2)
         ) {
-            items(20){
-                MovieItem(onTapMovie = { itemData ->
+            items(movieList.count()){ index ->
+                MovieItem(
+                    movieVO = movieList[index],
+                    onTapMovie = { itemData ->
                     onTapMovie(0)
                 })
             }

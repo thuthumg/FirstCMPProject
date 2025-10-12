@@ -205,6 +205,7 @@ fun MovieDetailsScreen(
                 ){
                     items((1..18).toList().count()){
                         MovieItem (
+                            movieVO = null,
                             onTapMovie = {
                                 onTapMovie()
                             }

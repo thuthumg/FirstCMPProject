@@ -1,6 +1,5 @@
 package org.example.firstcmpproject.movies.home.ui
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -28,34 +27,40 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import firstcmpproject.composeapp.generated.resources.Res
-import firstcmpproject.composeapp.generated.resources.lalpalma_poster
-import org.example.firstcmpproject.movies.MovieActionButton
+import coil3.compose.AsyncImage
 import org.example.firstcmpproject.core.MARGIN_CARD_MEDIUM_2
 import org.example.firstcmpproject.core.MARGIN_MEDIUM
 import org.example.firstcmpproject.core.MARGIN_MEDIUM_2
 import org.example.firstcmpproject.core.MARGIN_MEDIUM_3
 import org.example.firstcmpproject.core.MARGIN_SMALL
 import org.example.firstcmpproject.core.TEXT_REGULAR_2X
-import org.jetbrains.compose.resources.painterResource
+import org.example.firstcmpproject.movies.MovieActionButton
+import org.example.firstcmpproject.movies.data.vos.MovieVO
 
 @Composable
-fun FeatureMovie(onTapMovie: (Int) -> Unit) {
-    Box(modifier = Modifier
-        .fillMaxWidth()
-        .padding(top = MARGIN_MEDIUM_3,
-            start = MARGIN_MEDIUM_2,
-            end = MARGIN_MEDIUM_2)
-        .height(500.dp)){
-        Image(
-            painterResource(Res.drawable.lalpalma_poster),
+fun FeatureMovie(movieVO: MovieVO, onTapMovie: (Int) -> Unit) {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(
+                top = MARGIN_MEDIUM_3,
+                start = MARGIN_MEDIUM_2,
+                end = MARGIN_MEDIUM_2
+            )
+            .height(500.dp)
+    ) {
+
+
+        AsyncImage(
+            model = movieVO.getFullMoviePosterPath(),
             contentDescription = null,
             modifier = Modifier.fillMaxSize().clip(RoundedCornerShape(MARGIN_CARD_MEDIUM_2))
-                .clickable{
-                onTapMovie(0)
-            },
+                .clickable {
+                    onTapMovie(0)
+                },
             contentScale = ContentScale.Crop
         )
+
         Box(
             contentAlignment = Alignment.BottomCenter,
             modifier = Modifier.background(
@@ -66,31 +71,40 @@ fun FeatureMovie(onTapMovie: (Int) -> Unit) {
                     )
                 )
             ).fillMaxSize()
-        ){
-            Column(horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.spacedBy(MARGIN_MEDIUM_2)) {
+        ) {
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.spacedBy(MARGIN_MEDIUM_2)
+            ) {
+
+                //Genres
                 Row(
                     horizontalArrangement = Arrangement.spacedBy(MARGIN_MEDIUM),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Text("Suspenseful", color = Color.White,
-                        fontSize = TEXT_REGULAR_2X,
-                        fontWeight = FontWeight.Medium)
-                    Surface(
-                        color = Color.White,
-                        shape = CircleShape,
-                        modifier = Modifier.size(MARGIN_SMALL)
-                    ) {}
 
-                    Text("Emotional", color = Color.White,
-                        fontSize = TEXT_REGULAR_2X,fontWeight = FontWeight.Medium)
-                    Surface(
-                        color = Color.White,
-                        shape = CircleShape,
-                        modifier = Modifier.size(MARGIN_SMALL)
-                    ) {}
-                    Text("Drama", color = Color.White,
-                        fontSize = TEXT_REGULAR_2X,fontWeight = FontWeight.Medium)
+                    val movieGenreList = movieVO.genres?.take(3)
+                    movieGenreList?.forEachIndexed{ index, genre ->
+
+                        Text(
+                            genre.name, color = Color.White,
+                            fontSize = TEXT_REGULAR_2X,
+                            fontWeight = FontWeight.Medium
+                        )
+                        if(index != (movieGenreList.size-1))
+                        {
+                            Surface(
+                                color = Color.White,
+                                shape = CircleShape,
+                                modifier = Modifier.size(MARGIN_SMALL)
+                            ) {}
+                        }
+
+                    }
+
+
+
+
                 }
 
                 FeaturedMovieButtons()
@@ -99,8 +113,9 @@ fun FeatureMovie(onTapMovie: (Int) -> Unit) {
         }
     }
 }
+
 @Composable
-fun FeaturedMovieButtons(){
+fun FeaturedMovieButtons() {
     Row(
         modifier = Modifier.fillMaxWidth().padding(horizontal = MARGIN_MEDIUM_2),
         horizontalArrangement = Arrangement.spacedBy(MARGIN_MEDIUM_2)
@@ -113,13 +128,15 @@ fun FeaturedMovieButtons(){
             iconPainter = null,
             label = "Play",
             contentColor = Color.Black,
-            modifier = Modifier.weight(1.0f))
+            modifier = Modifier.weight(1.0f)
+        )
         MovieActionButton(
             backgroundColor = Color.DarkGray,
             iconVector = Icons.Default.Add,
             iconPainter = null,
             label = "My List",
             contentColor = Color.White,
-            modifier = Modifier.weight(1.0f))
+            modifier = Modifier.weight(1.0f)
+        )
     }
 }
