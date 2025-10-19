@@ -5,7 +5,7 @@ import io.ktor.client.statement.HttpResponse
 import io.ktor.client.statement.bodyAsText
 import io.ktor.serialization.JsonConvertException
 
-suspend inline fun <reified T>transformResult(httpResponse:  HttpResponse): T{
+suspend inline fun <reified T>transformResult(httpResponse:  HttpResponse): T {
     when(httpResponse.status.value){
         in 200..299 ->{
             return httpResponse.body<T>()

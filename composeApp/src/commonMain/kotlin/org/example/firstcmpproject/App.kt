@@ -7,9 +7,12 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
+import androidx.room.RoomDatabase
 import kotlinx.serialization.Serializable
 import org.example.firstcmpproject.auth.ui.NetflixLoginScreen
 import org.example.firstcmpproject.core.NetflixSansTypography
+import org.example.firstcmpproject.core.persistence.AppDatabase
+import org.example.firstcmpproject.core.persistence.AppDatabaseProvider
 import org.example.firstcmpproject.movies.detail.ui.MovieDetailsRoute
 import org.example.firstcmpproject.movies.detail.viewmodel.MovieDetailsViewModel
 import org.example.firstcmpproject.movies.home.ui.HomeRoute
@@ -18,7 +21,11 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 @Preview
-fun App() {
+fun App(databaseBuilder : RoomDatabase.Builder<AppDatabase>) {
+
+
+    AppDatabaseProvider.initializeDatabase(databaseBuilder)
+
 
     val navController = rememberNavController()
 
@@ -89,3 +96,4 @@ sealed class NavRoutes{
     data class MovieDetails(val movieId: Long)
 
 }
+

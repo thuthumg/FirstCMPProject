@@ -1,13 +1,12 @@
 package org.example.firstcmpproject.movies.detail.viewmodel
 
-
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import org.example.firstcmpproject.movies.data.MovieRepository
+import org.example.firstcmpproject.movies.data.repository.MovieRepository
 import org.example.firstcmpproject.movies.detail.state.MovieDetailsState
 
 class MovieDetailsViewModel(val movieId: Long) : ViewModel(){
@@ -39,6 +38,10 @@ class MovieDetailsViewModel(val movieId: Long) : ViewModel(){
             }
         }
 
-
+        //
+        viewModelScope.launch {
+            val movieDetails = movieRepository.getMovieDetailsFromDb(movieId)
+            _state.update{ it.copy(movieDetails =  movieDetails)}
+        }
     }
 }

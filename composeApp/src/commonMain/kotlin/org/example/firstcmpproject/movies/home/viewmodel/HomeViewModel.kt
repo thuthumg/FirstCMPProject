@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import org.example.firstcmpproject.movies.data.MovieRepository
+import org.example.firstcmpproject.movies.data.repository.MovieRepository
 import org.example.firstcmpproject.movies.home.state.HomeState
 
 class HomeViewModel: ViewModel() {

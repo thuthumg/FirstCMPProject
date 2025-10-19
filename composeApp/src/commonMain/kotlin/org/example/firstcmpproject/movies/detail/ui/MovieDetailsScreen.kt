@@ -43,7 +43,7 @@ import org.example.firstcmpproject.movies.MovieItem
 import org.example.firstcmpproject.movies.detail.state.MovieDetailsState
 import org.example.firstcmpproject.movies.detail.viewmodel.MovieDetailsViewModel
 import org.jetbrains.compose.ui.tooling.preview.Preview
-
+import androidx.compose.foundation.lazy.grid.items
 @Composable
 fun MovieDetailsRoute(viewModel: MovieDetailsViewModel,
                       onTapMovie: (Long) -> Unit,

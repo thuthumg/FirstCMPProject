@@ -43,7 +43,7 @@ fun CategoriesLabelAndMovies(
                     onTapMovie = { itemData ->
 
                         onTapMovie(itemData)
-                    })
+                })
             }
         }
     }
