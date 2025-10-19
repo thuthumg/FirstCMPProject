@@ -8,11 +8,11 @@ import kotlinx.serialization.Serializable
 data class SpokenLanguagesVO(
 
     @SerialName("english_name")
-    val englishName: String,
+    val englishName: String?,
 
     @SerialName("iso_639_1")
-    val iso6391: String,
+    val iso6391: String?,
 
     @SerialName("name")
-    val name: String
+    val name: String?
 )

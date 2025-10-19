@@ -5,7 +5,6 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -24,36 +23,39 @@ import firstcmpproject.composeapp.generated.resources.message
 import firstcmpproject.composeapp.generated.resources.spatial_audio
 import org.example.firstcmpproject.core.MARGIN_MEDIUM
 import org.example.firstcmpproject.core.MARGIN_MEDIUM_2
-import org.example.firstcmpproject.core.TEXT_REGULAR
 import org.example.firstcmpproject.core.TEXT_REGULAR_2X
+import org.example.firstcmpproject.core.TEXT_SMALL
+import org.example.firstcmpproject.movies.data.vos.MovieVO
 import org.jetbrains.compose.resources.painterResource
 
 @Composable
-fun DetailMovieInfo(modifier: Modifier = Modifier) {
+fun DetailMovieInfo(movieVO: MovieVO) {
+
     Row(
         horizontalArrangement = Arrangement.spacedBy(MARGIN_MEDIUM),
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier.padding(horizontal = MARGIN_MEDIUM_2)
 
     ){
-        Text("2024",
+        Text(movieVO.year,
             color = Color.White,
             fontSize = TEXT_REGULAR_2X
         )
 
         Box(
-            contentAlignment = Alignment.Center,
-            modifier = Modifier.height(20.dp)
-                .width(25.dp).background(Color.Gray,
-                    shape = RoundedCornerShape(5.dp),
-                )){
-            Text("16+",
+            modifier = Modifier
+                .width(30.dp)
+                .background(Color.Gray, RoundedCornerShape(5.dp))
+        ) {
+            Text(
+                text = "16+",
                 color = Color.White,
-                fontSize = TEXT_REGULAR
+                fontSize = TEXT_SMALL,
+                modifier = Modifier.align(Alignment.Center)
             )
         }
 
-        Text("1h 59m",
+        Text(movieVO.formattedRuntime,
             color = Color.White,
             fontSize = TEXT_REGULAR_2X
         )
@@ -67,7 +69,7 @@ fun DetailMovieInfo(modifier: Modifier = Modifier) {
 
         Box(
             contentAlignment = Alignment.Center,
-            modifier = Modifier.height(20.dp)
+            modifier = Modifier
                 .width(30.dp).background(Color.Transparent,
                     shape = RoundedCornerShape(5.dp),
                 ).border(
@@ -78,7 +80,7 @@ fun DetailMovieInfo(modifier: Modifier = Modifier) {
             ){
             Text("HD",
                 color = Color.White,
-                fontSize = TEXT_REGULAR
+                fontSize = TEXT_SMALL
             )
         }
 

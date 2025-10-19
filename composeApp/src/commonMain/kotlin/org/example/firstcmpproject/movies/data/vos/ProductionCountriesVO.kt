@@ -6,8 +6,8 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class ProductionCountriesVO(
     @SerialName("iso_3166_1")
-    val iso: String,
+    val iso: String?,
 
     @SerialName("name")
-    val name: String
+    val name: String?
 )

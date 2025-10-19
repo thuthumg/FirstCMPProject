@@ -1,6 +1,5 @@
 package org.example.firstcmpproject.movies.detail.ui
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -17,22 +16,24 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
-import firstcmpproject.composeapp.generated.resources.Res
-import firstcmpproject.composeapp.generated.resources.gladiator_photo
+import coil3.compose.AsyncImage
 import org.example.firstcmpproject.core.MARGIN_MEDIUM
 import org.example.firstcmpproject.core.MARGIN_XLARGE
 import org.example.firstcmpproject.core.MARGIN_XXLARGE
-import org.jetbrains.compose.resources.painterResource
+import org.example.firstcmpproject.movies.data.vos.MovieVO
 
 @Composable
-fun DetailMovieImage(onTapBack: () -> Unit,modifier: Modifier = Modifier) {
+fun DetailMovieImage(
+    movieVO: MovieVO,
+    onTapBack: () -> Unit,modifier: Modifier = Modifier) {
 
     Box(modifier = Modifier.fillMaxWidth().height(250.dp)){
-        Image(
-            painterResource(Res.drawable.gladiator_photo),
+        AsyncImage(
+            model = movieVO.getFullMoviePosterPath(),
             contentDescription = null,
             modifier = Modifier.fillMaxSize(),
-            contentScale = ContentScale.Crop
+            contentScale = ContentScale.Crop,
+            // error = painterResource(Res.drawable.gladiator_photo)
         )
         Icon(
             Icons.AutoMirrored.Default.KeyboardArrowLeft,

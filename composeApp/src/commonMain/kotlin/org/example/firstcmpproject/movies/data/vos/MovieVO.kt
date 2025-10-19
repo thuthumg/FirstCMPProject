@@ -110,4 +110,21 @@ data class MovieVO(
     fun getFullMovieBackdropPath() : String{
         return "$MOVIE_ITEM_IMAGE_BASE_URL$backdropPath"
     }
+
+
+
+
+
+    // Extract only year (e.g., "2021")
+    val year: String
+        get() = releaseDate.take(4)
+
+    // Convert runtime minutes → "Xh Ym" format
+    val formattedRuntime: String
+        get() = runtime?.let {
+            val hours = it / 60
+            val minutes = it % 60
+            "${hours}h ${minutes}m"
+        } ?: "-"
+
 }

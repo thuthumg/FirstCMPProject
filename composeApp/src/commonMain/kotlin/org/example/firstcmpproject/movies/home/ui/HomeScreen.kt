@@ -20,7 +20,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 @Composable
 fun HomeRoute(
     viewModel: HomeViewModel,
-    onTapMovie: (Int) -> Unit
+    onTapMovie: (Long) -> Unit
 ) {
 
     //observe
@@ -34,7 +34,7 @@ fun HomeRoute(
 @Composable
 fun HomeScreen(
     state: HomeState,
-    onTapMovie: (Int) -> Unit) {
+    onTapMovie: (Long) -> Unit) {
     Scaffold(
         topBar = {
             HomeAppBar()
@@ -70,12 +70,12 @@ fun HomeScreen(
 
             //Moves and Categories
             items(state.moviesByGenre.count()){ index ->
-               CategoriesLabelAndMovies(
-                   genre = state.moviesByGenre[index].first,
-                   movieList = state.moviesByGenre[index].second,
-                   onTapMovie = { movieId ->
-                   onTapMovie(movieId)
-               })
+                CategoriesLabelAndMovies(
+                    genre = state.moviesByGenre[index].first,
+                    movieList = state.moviesByGenre[index].second,
+                    onTapMovie = { movieId ->
+                        onTapMovie(movieId)
+                    })
             }
         }
 

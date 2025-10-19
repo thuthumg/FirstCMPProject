@@ -4,7 +4,6 @@ import io.ktor.client.call.body
 import io.ktor.client.statement.HttpResponse
 import io.ktor.client.statement.bodyAsText
 import io.ktor.serialization.JsonConvertException
-import org.example.firstcmpproject.movies.network.responses.MovieListResponse
 
 suspend inline fun <reified T>transformResult(httpResponse:  HttpResponse): T{
     when(httpResponse.status.value){

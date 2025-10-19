@@ -10,8 +10,10 @@ import org.example.firstcmpproject.core.MARGIN_MEDIUM_2
 import org.example.firstcmpproject.core.TEXT_LARGE
 
 @Composable
-fun DetailMovieTitle(modifier: Modifier = Modifier) {
-    Text("Gladiator 2",
+fun DetailMovieTitle(
+    movieTitle: String
+) {
+    Text(movieTitle,
         color= Color.White,
         fontWeight = FontWeight.Bold,
         fontSize = TEXT_LARGE,

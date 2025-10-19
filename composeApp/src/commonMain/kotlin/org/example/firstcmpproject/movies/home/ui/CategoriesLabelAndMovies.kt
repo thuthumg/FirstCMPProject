@@ -21,7 +21,7 @@ import org.example.firstcmpproject.movies.data.vos.MovieVO
 fun CategoriesLabelAndMovies(
     genre: GenreVO,
     movieList: List<MovieVO>,
-    onTapMovie: (Int) -> Unit) {
+    onTapMovie: (Long) -> Unit) {
     Column (
         verticalArrangement = Arrangement.spacedBy(MARGIN_MEDIUM),
         modifier = Modifier.padding(top = MARGIN_MEDIUM_2)
@@ -41,8 +41,9 @@ fun CategoriesLabelAndMovies(
                 MovieItem(
                     movieVO = movieList[index],
                     onTapMovie = { itemData ->
-                    onTapMovie(0)
-                })
+
+                        onTapMovie(itemData)
+                    })
             }
         }
     }

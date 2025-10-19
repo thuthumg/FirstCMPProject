@@ -16,6 +16,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.PlayArrow
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -27,7 +29,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import coil3.compose.AsyncImage
+import coil3.compose.SubcomposeAsyncImage
+import firstcmpproject.composeapp.generated.resources.Res
+import firstcmpproject.composeapp.generated.resources.image_not_supported
 import org.example.firstcmpproject.core.MARGIN_CARD_MEDIUM_2
 import org.example.firstcmpproject.core.MARGIN_MEDIUM
 import org.example.firstcmpproject.core.MARGIN_MEDIUM_2
@@ -36,9 +40,10 @@ import org.example.firstcmpproject.core.MARGIN_SMALL
 import org.example.firstcmpproject.core.TEXT_REGULAR_2X
 import org.example.firstcmpproject.movies.MovieActionButton
 import org.example.firstcmpproject.movies.data.vos.MovieVO
+import org.jetbrains.compose.resources.painterResource
 
 @Composable
-fun FeatureMovie(movieVO: MovieVO, onTapMovie: (Int) -> Unit) {
+fun FeatureMovie(movieVO: MovieVO, onTapMovie: (Long) -> Unit) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -50,16 +55,25 @@ fun FeatureMovie(movieVO: MovieVO, onTapMovie: (Int) -> Unit) {
             .height(500.dp)
     ) {
 
-
-        AsyncImage(
+        SubcomposeAsyncImage(
             model = movieVO.getFullMoviePosterPath(),
-            contentDescription = null,
             modifier = Modifier.fillMaxSize().clip(RoundedCornerShape(MARGIN_CARD_MEDIUM_2))
                 .clickable {
-                    onTapMovie(0)
+                    onTapMovie(movieVO.id)
                 },
-            contentScale = ContentScale.Crop
-        )
+            contentDescription = null,
+            contentScale = ContentScale.Crop,
+            loading = {
+                 CircularProgressIndicator(modifier = Modifier.size(30.dp))
+            },
+            error = {
+                Icon(
+                    painter = painterResource(Res.drawable.image_not_supported),
+                    contentDescription = "Error loading image"
+                )
+            },
+
+            )
 
         Box(
             contentAlignment = Alignment.BottomCenter,
@@ -101,9 +115,6 @@ fun FeatureMovie(movieVO: MovieVO, onTapMovie: (Int) -> Unit) {
                         }
 
                     }
-
-
-
 
                 }
 
