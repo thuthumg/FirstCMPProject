@@ -1,0 +1,73 @@
+import kotlin.Boolean;
+
+CREATE TABLE Movie(
+    id INTEGER PRIMARY KEY,
+    adult INTEGER AS Boolean DEFAULT 0,
+    backdropPath TEXT,
+    belongsToCollection TEXT,
+    budget INTEGER,
+    genres TEXT,
+    homePage TEXT,
+    imdbId TEXT,
+    originCountry TEXT,
+    genreIds TEXT ,
+    originalLanguage TEXT,
+    originalTitle TEXT,
+    overview TEXT,
+    popularity REAL,
+    posterPath TEXT,
+    productionCompanies TEXT,
+    productionCountries TEXT,
+    releaseDate TEXT,
+    revenue INTEGER ,
+    runtime INTEGER ,
+    spokenLanguages TEXT,
+    status TEXT,
+    tagline TEXT,
+    title TEXT,
+    video INTEGER AS Boolean DEFAULT 0,
+    voteAverage REAL,
+    voteCount INTEGER
+);
+
+insertPartialMovie:
+INSERT OR REPLACE INTO Movie(id,adult,backdropPath,genreIds,originalLanguage,originalTitle,overview,popularity,posterPath,releaseDate,title,video,voteAverage,voteCount)
+VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?);
+
+insertFullMovie:
+INSERT OR REPLACE INTO
+Movie(
+    id,
+    adult,
+    backdropPath,
+    belongsToCollection,
+    budget,
+    genres,
+    homePage,
+    imdbId,
+    originCountry,
+    genreIds,
+    originalLanguage,
+    originalTitle,
+    overview,
+    popularity,
+    posterPath,
+    productionCompanies,
+    productionCountries,
+    releaseDate,
+    revenue,
+    runtime,
+    spokenLanguages,
+    status,
+    tagline,
+    title,
+    video,
+    voteAverage,
+    voteCount
+
+) VALUES (
+?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);
+
+
+getMovieById:
+SELECT * FROM Movie WHERE  id=?;

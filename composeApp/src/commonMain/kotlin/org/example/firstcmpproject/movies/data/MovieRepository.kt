@@ -5,20 +5,30 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.example.firstcmpproject.movies.data.vos.GenreVO
 import org.example.firstcmpproject.movies.data.vos.MovieVO
 import org.example.firstcmpproject.movies.network.api_service.ApiService
 import org.example.firstcmpproject.movies.network.impls.ApiServiceImpl
+import org.example.firstcmpproject.movies.network.responses.MovieListResponse
+import org.example.firstcmpproject.movies.persistence.MovieDao
 
 object MovieRepository {
     val apiService: ApiService = ApiServiceImpl
 
-    suspend fun getNowPlayingMovies(): List<MovieVO>{
+    val movieDao = MovieDao
+
+    suspend fun getNowPlayingMovies(): MovieListResponse? {
 
         return withContext(Dispatchers.IO){
             val response = apiService.getNowPlayingMovies(1)
-            return@withContext response?.results ?: listOf()
+
+            launch {
+                movieDao.insertMovies(response?.results ?: listOf())
+            }
+
+            return@withContext response
         }
 
     }
@@ -28,7 +38,8 @@ object MovieRepository {
         //Get Now Playing Movies -> First -> Use id of first movie ->  Get Movie Details -> return
         return withContext(Dispatchers.IO){
 
-            return@withContext getMovieDetail(getNowPlayingMovies().first().id)
+
+            return@withContext getMovieDetail(getNowPlayingMovies()?.results?.first()?.id ?: -1)
         }
 
 
@@ -70,6 +81,12 @@ object MovieRepository {
         return withContext(Dispatchers.IO){
             val response = apiService.getMovieDetail(movieId)
             return@withContext response
+        }
+    }
+
+    suspend fun getMovieDetailsFromDb(movieId: Int): MovieVO?{
+        return withContext(Dispatchers.IO){
+            movieDao.getMovieById(movieId)
         }
     }
 }

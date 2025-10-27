@@ -10,6 +10,8 @@ import androidx.navigation.toRoute
 import kotlinx.serialization.Serializable
 import org.example.firstcmpproject.auth.ui.NetflixLoginScreen
 import org.example.firstcmpproject.core.NetflixSansTypography
+import org.example.firstcmpproject.core.persistence.DatabaseDriverFactory
+import org.example.firstcmpproject.core.persistence.DatabaseProvider
 import org.example.firstcmpproject.movies.detail.ui.MovieDetailsRoute
 import org.example.firstcmpproject.movies.detail.viewmodel.MovieDetailsViewModel
 import org.example.firstcmpproject.movies.home.ui.HomeRoute
@@ -18,7 +20,11 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 @Preview
-fun App() {
+fun App(
+    databaseDriverFactory: DatabaseDriverFactory
+) {
+    //Initialize db
+    DatabaseProvider.initDatabase(databaseDriverFactory)
 
     val navController = rememberNavController()
 

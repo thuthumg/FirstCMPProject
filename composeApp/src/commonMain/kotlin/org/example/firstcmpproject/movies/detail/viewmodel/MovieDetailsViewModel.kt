@@ -40,5 +40,11 @@ class MovieDetailsViewModel(val movieId: Long) : ViewModel(){
         }
 
 
+        viewModelScope.launch {
+            val movieDetails = movieRepository.getMovieDetailsFromDb(movieId.toInt())
+            _state.update { it.copy(movieDetails = movieDetails) }
+        }
+
     }
+
 }
