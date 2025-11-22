@@ -43,7 +43,11 @@ import org.example.firstcmpproject.movies.MovieItem
 import org.example.firstcmpproject.movies.detail.state.MovieDetailsState
 import org.example.firstcmpproject.movies.detail.viewmodel.MovieDetailsViewModel
 import org.jetbrains.compose.ui.tooling.preview.Preview
-import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.runtime.LaunchedEffect
+import kotlinx.coroutines.flow.collectLatest
+import org.example.firstcmpproject.movies.detail.actions.DetailActions
+import org.example.firstcmpproject.movies.detail.events.DetailEvents
+
 @Composable
 fun MovieDetailsRoute(viewModel: MovieDetailsViewModel,
                       onTapMovie: (Long) -> Unit,
@@ -52,10 +56,27 @@ fun MovieDetailsRoute(viewModel: MovieDetailsViewModel,
 
     val state by viewModel.state.collectAsStateWithLifecycle()
 
+
+    LaunchedEffect(Unit){
+        viewModel.navigationSharedFlow.collectLatest { event ->
+            when(event){
+                is DetailEvents.NavigateToDetails ->{
+                    onTapMovie(event.movieId)
+                }
+                is DetailEvents.NavigateToHome -> onTapBack
+            }
+
+        }
+
+    }
+
+
     MovieDetailsScreen(
         state = state,
-        onTapBack = onTapBack,
-        onTapMovie = onTapMovie
+        onActions = { actions ->
+            viewModel.onAction(actions)
+
+        }
     )
 
 }
@@ -65,8 +86,10 @@ fun MovieDetailsRoute(viewModel: MovieDetailsViewModel,
 @Composable
 fun MovieDetailsScreen(
     state: MovieDetailsState,
-    onTapBack: () -> Unit,
-    onTapMovie: (Long) -> Unit) {
+    onActions: (DetailActions) -> Unit
+   // onTapBack: () -> Unit,
+   // onTapMovie: (Long) -> Unit
+    ) {
     Scaffold (
         containerColor = Color.Black
     ){
@@ -78,7 +101,9 @@ fun MovieDetailsScreen(
                 item {
                     DetailMovieImage(
                         movieVO = it,
-                        onTapBack = {onTapBack()})
+                        onTapBack = {
+                            onActions(DetailActions.OnTapBack())
+                        })
                 }
 
                 //Spacer
@@ -237,7 +262,7 @@ fun MovieDetailsScreen(
                             MovieItem (
                                 movieVO = it,
                                 onTapMovie = {
-                                    onTapMovie(it)
+                                    onActions(DetailActions.OnTapMovie(it))
                                 }
                             )
                         }

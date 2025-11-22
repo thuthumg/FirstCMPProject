@@ -5,6 +5,13 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.flow.flatMapMerge
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.take
+import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.example.firstcmpproject.core.persistence.AppDatabaseProvider
@@ -61,6 +68,21 @@ object MovieRepository {
         }
     }
 
+    suspend fun getMoviesWithFirstFiveGenresFlow(): List<Pair<GenreVO, List<MovieVO>>>{
+       return getGenres()
+            .asFlow()
+            .take(5)
+            .flatMapMerge { genreVO ->
+                flow{
+                    val moviesByGenre = getMoviesByGenres(genreId = genreVO.id)
+                    emit(Pair(genreVO,moviesByGenre))
+                }
+
+            }.flowOn(Dispatchers.IO)
+            .toList()
+    }
+
+
     suspend fun getGenres() : List<GenreVO>{
         return withContext(Dispatchers.IO) {
             val response = apiService.getGenres()
@@ -93,4 +115,8 @@ object MovieRepository {
         return appDatabase.movieDao().getMovieById(movieId)
 
     }
+
+     fun getMovieDetailsFromDbFlow(movieId : Long) : Flow<MovieVO?> {
+        return appDatabase.movieDao().getMovieByIdFlow(movieId)
+     }
 }
