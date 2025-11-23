@@ -40,13 +40,9 @@ import org.example.firstcmpproject.core.TEXT_REGULAR
 import org.example.firstcmpproject.core.TEXT_REGULAR_3X
 import org.example.firstcmpproject.core.TEXT_SMALL
 import org.example.firstcmpproject.movies.MovieItem
-import org.example.firstcmpproject.movies.detail.state.MovieDetailsState
 import org.example.firstcmpproject.movies.detail.viewmodel.MovieDetailsViewModel
 import org.jetbrains.compose.ui.tooling.preview.Preview
-import androidx.compose.runtime.LaunchedEffect
-import kotlinx.coroutines.flow.collectLatest
-import org.example.firstcmpproject.movies.detail.actions.DetailActions
-import org.example.firstcmpproject.movies.detail.events.DetailEvents
+import org.example.firstcmpproject.redux.AppState
 
 @Composable
 fun MovieDetailsRoute(viewModel: MovieDetailsViewModel,
@@ -56,25 +52,11 @@ fun MovieDetailsRoute(viewModel: MovieDetailsViewModel,
 
     val state by viewModel.state.collectAsStateWithLifecycle()
 
-
-    LaunchedEffect(Unit){
-        viewModel.navigationSharedFlow.collectLatest { event ->
-            when(event){
-                is DetailEvents.NavigateToDetails ->{
-                    onTapMovie(event.movieId)
-                }
-                is DetailEvents.NavigateToHome -> onTapBack
-            }
-
-        }
-
-    }
-
-
     MovieDetailsScreen(
         state = state,
-        onActions = { actions ->
-            viewModel.onAction(actions)
+        onTapBack = onTapBack,
+        onTapMovie = { movieId ->
+            onTapMovie(movieId)
 
         }
     )
@@ -85,10 +67,9 @@ fun MovieDetailsRoute(viewModel: MovieDetailsViewModel,
 
 @Composable
 fun MovieDetailsScreen(
-    state: MovieDetailsState,
-    onActions: (DetailActions) -> Unit
-   // onTapBack: () -> Unit,
-   // onTapMovie: (Long) -> Unit
+    state: AppState,
+    onTapBack: () -> Unit,
+    onTapMovie: (Long) -> Unit
     ) {
     Scaffold (
         containerColor = Color.Black
@@ -102,7 +83,7 @@ fun MovieDetailsScreen(
                     DetailMovieImage(
                         movieVO = it,
                         onTapBack = {
-                            onActions(DetailActions.OnTapBack())
+                          onTapBack()
                         })
                 }
 
@@ -261,8 +242,8 @@ fun MovieDetailsScreen(
                         items(state.similarMovies){ it ->
                             MovieItem (
                                 movieVO = it,
-                                onTapMovie = {
-                                    onActions(DetailActions.OnTapMovie(it))
+                                onTapMovie = { movieId ->
+                                    onTapMovie(movieId)
                                 }
                             )
                         }

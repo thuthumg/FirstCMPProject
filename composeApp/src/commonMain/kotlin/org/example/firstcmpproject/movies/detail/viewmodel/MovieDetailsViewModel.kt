@@ -2,99 +2,40 @@ package org.example.firstcmpproject.movies.detail.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import org.example.firstcmpproject.movies.data.repository.MovieRepository
-import org.example.firstcmpproject.movies.detail.actions.DetailActions
-import org.example.firstcmpproject.movies.detail.events.DetailEvents
-import org.example.firstcmpproject.movies.detail.state.MovieDetailsState
+import org.example.firstcmpproject.redux.Actions
+import org.example.firstcmpproject.redux.AppState
+import org.reduxkotlin.Store
+import org.reduxkotlin.StoreSubscription
 
 
-class MovieDetailsViewModel(val movieId: Long) : ViewModel(){
-
-    //Repository
-    private val movieRepository = MovieRepository
+class MovieDetailsViewModel(val movieId: Long,val store: Store<AppState>) : ViewModel(){
 
     //State
-    private val _state = MutableStateFlow(MovieDetailsState())
+    private val _state = MutableStateFlow(AppState())
     val state = _state.asStateFlow()
 
-//
-//    private val _navigateToBackSharedFlow:MutableSharedFlow<Boolean>   = MutableSharedFlow()
-//
-//    val navigateToBackSharedFlow = _navigateToBackSharedFlow.asSharedFlow()
-//
-//    private val _navigateToDetailsSharedFlow: MutableSharedFlow<Long> = MutableSharedFlow()
-//    val navigateToDetailsSharedFlow = _navigateToDetailsSharedFlow.asSharedFlow()
-
-
-    private val _navigationSharedFlow : MutableSharedFlow<DetailEvents> = MutableSharedFlow()
-
-    val navigationSharedFlow = _navigationSharedFlow.asSharedFlow()
-
-
-
+    var subscription : StoreSubscription? = null
 
     init {
 
-        // Network
+        store.dispatch(Actions.MiddlewareActions.FetchMovieDetailsAndSimilarMovies(movieId))
+        store.dispatch(Actions.MiddlewareActions.GetMovieDetailsFromDb(movieId))
+
         viewModelScope.launch {
-            val movieDetails = movieRepository.getMovieDetail(movieId)
-            _state.update{ it.copy(movieDetails =  movieDetails)}
-
-
-            movieDetails.genres?.firstOrNull()?.id?.let { genreId ->
-                val similarMovies = movieRepository.getMoviesByGenres(genreId).toMutableList()
-
-                similarMovies.removeAll {
-                    it.id == movieId
+            subscription = store.subscribe{
+                _state.update {
+                    store.state
                 }
-
-
-                _state.update { it.copy(similarMovies = similarMovies) }
-            }
-        }
-
-        //Persistence
-        viewModelScope.launch {
-//            val movieDetails = movieRepository.getMovieDetailsFromDb(movieId)
-//            _state.update{ it.copy(movieDetails =  movieDetails)}
-
-            movieRepository.getMovieDetailsFromDbFlow(movieId).collect{
-                movieDetails ->  _state.update{ it.copy(movieDetails =  movieDetails)}
             }
         }
     }
 
-//    fun onTapMovie(movieId: Long){
-//        viewModelScope.launch {
-//            _navigateToDetailsSharedFlow.emit(movieId)
-//        }
-//    }
-//
-//    fun onTapBack(){
-//        viewModelScope.launch {
-//            _navigateToBackSharedFlow.emit(true)
-//        }
-//    }
-
-    fun onAction(action: DetailActions){
-        when(action){
-            is DetailActions.OnTapBack -> {
-                viewModelScope.launch {
-
-                    _navigationSharedFlow.emit(DetailEvents.NavigateToHome())
-                }
-            }
-            is DetailActions.OnTapMovie -> {
-                viewModelScope.launch {
-                    _navigationSharedFlow.emit(DetailEvents.NavigateToDetails(movieId = action.movieId))
-                }
-            }
-        }
+    override fun onCleared() {
+        subscription?.invoke()
+        super.onCleared()
     }
 }

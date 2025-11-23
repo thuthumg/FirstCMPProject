@@ -55,7 +55,9 @@ kotlin {
 
 
             implementation(libs.androidx.room.runtime)
-            implementation(libs.sqlite.bundled)}
+            implementation(libs.sqlite.bundled)
+            implementation(libs.reduxkotlin.redux.kotlin.threadsafe)
+        }
 
         dependencies {    ksp(libs.androidx.room.compiler)
 
