@@ -15,7 +15,7 @@ import org.example.firstcmpproject.movies.network.api_service.ApiService
 import org.example.firstcmpproject.movies.network.responses.GenreListResponse
 import org.example.firstcmpproject.movies.network.responses.MovieListResponse
 
-object ApiServiceImpl: ApiService{
+class ApiServiceImpl: ApiService{
     override suspend fun getNowPlayingMovies(page: Int): MovieListResponse? {
        val httpResponse =  HttpClientProvider.httpClient.get("$NOW_PLAYING_MOVIES?language=en-US?page=$page"){
            header(HttpHeaders.Authorization,"Bearer $API_KEY")

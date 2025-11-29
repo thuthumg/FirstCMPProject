@@ -18,14 +18,12 @@ import org.example.firstcmpproject.movies.detail.viewmodel.MovieDetailsViewModel
 import org.example.firstcmpproject.movies.home.ui.HomeRoute
 import org.example.firstcmpproject.movies.home.viewmodel.HomeViewModel
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import org.koin.compose.viewmodel.koinViewModel
+import org.koin.core.parameter.parametersOf
 
 @Composable
 @Preview
-fun App(databaseBuilder : RoomDatabase.Builder<AppDatabase>) {
-
-
-    AppDatabaseProvider.initializeDatabase(databaseBuilder)
-
+fun App() {
 
     val navController = rememberNavController()
 
@@ -47,7 +45,7 @@ fun App(databaseBuilder : RoomDatabase.Builder<AppDatabase>) {
 
             composable<NavRoutes.Home> {
 
-                val homeViewModel = viewModel { HomeViewModel() }
+                val homeViewModel = koinViewModel<HomeViewModel>()
                 HomeRoute(
                     viewModel = homeViewModel,
                     onTapMovie = { movieId ->
@@ -63,7 +61,11 @@ fun App(databaseBuilder : RoomDatabase.Builder<AppDatabase>) {
                 val args = backStackEntry.toRoute<NavRoutes.MovieDetails>()
                 val movieId = args.movieId
 
-                val movieDetailsViewModel = viewModel { MovieDetailsViewModel(movieId) }
+                val movieDetailsViewModel = koinViewModel<MovieDetailsViewModel>(
+                    parameters = {
+                        parametersOf(args.movieId)
+                    }
+                )
 
                 MovieDetailsRoute(
                     viewModel = movieDetailsViewModel,

@@ -20,8 +20,8 @@ class MainActivity : ComponentActivity() {
         val databaseBuilder = getDatabaseBuilderAndroid(this)
 
         setContent {
-
-            App(databaseBuilder)
+            App()
+           // App(databaseBuilder)
         }
     }
 }

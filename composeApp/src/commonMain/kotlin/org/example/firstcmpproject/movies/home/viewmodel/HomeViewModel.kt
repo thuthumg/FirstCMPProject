@@ -13,12 +13,15 @@ import org.example.firstcmpproject.movies.home.actions.HomeActions
 import org.example.firstcmpproject.movies.home.events.HomeEvents
 import org.example.firstcmpproject.movies.home.state.HomeState
 
-class HomeViewModel: ViewModel() {
+class HomeViewModel(
+    private val  movieRepository: MovieRepository
+): ViewModel() {
 
-    val movieRepository = MovieRepository
+  //  val movieRepository = MovieRepository
 
     private val _state = MutableStateFlow(HomeState())
     val state = _state.asStateFlow()
+
 
 //
 //    private val _navigateToDetailsSharedFlow: MutableSharedFlow<Long> = MutableSharedFlow()
@@ -27,7 +30,6 @@ class HomeViewModel: ViewModel() {
 
 
     private val _navigationSharedFlow : MutableSharedFlow<HomeEvents> = MutableSharedFlow()
-
     val navigationSharedFlow = _navigationSharedFlow.asSharedFlow()
 
 

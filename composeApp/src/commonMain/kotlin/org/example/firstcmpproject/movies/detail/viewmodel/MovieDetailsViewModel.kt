@@ -14,10 +14,11 @@ import org.example.firstcmpproject.movies.detail.events.DetailEvents
 import org.example.firstcmpproject.movies.detail.state.MovieDetailsState
 
 
-class MovieDetailsViewModel(val movieId: Long) : ViewModel(){
+class MovieDetailsViewModel(val movieId: Long,
+                            private val movieRepository: MovieRepository) : ViewModel(){
 
     //Repository
-    private val movieRepository = MovieRepository
+
 
     //State
     private val _state = MutableStateFlow(MovieDetailsState())

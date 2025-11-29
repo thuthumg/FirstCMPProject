@@ -14,16 +14,20 @@ import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.example.firstcmpproject.core.persistence.AppDatabase
 import org.example.firstcmpproject.core.persistence.AppDatabaseProvider
 import org.example.firstcmpproject.movies.data.vos.GenreVO
 import org.example.firstcmpproject.movies.data.vos.MovieVO
 import org.example.firstcmpproject.movies.network.api_service.ApiService
 import org.example.firstcmpproject.movies.network.impls.ApiServiceImpl
 
-object MovieRepository {
-    val apiService: ApiService = ApiServiceImpl
-
-    val appDatabase = AppDatabaseProvider.appDatabase
+class MovieRepository (
+    private val apiService: ApiService,
+    private val appDatabase: AppDatabase
+){
+//    val apiService: ApiService = ApiServiceImpl
+//
+//    val appDatabase = AppDatabaseProvider.appDatabase
 
     suspend fun getNowPlayingMovies(): List<MovieVO>{
 

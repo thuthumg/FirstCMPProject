@@ -34,6 +34,9 @@ kotlin {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
             implementation(libs.ktor.client.okhttp)
+
+            implementation(libs.koin.android)
+            implementation(libs.koin.androidx.compose)
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -55,7 +58,14 @@ kotlin {
 
 
             implementation(libs.androidx.room.runtime)
-            implementation(libs.sqlite.bundled)}
+            implementation(libs.sqlite.bundled)
+
+            implementation(libs.koin.compose)
+            implementation(libs.koin.compose.viewmodel)
+            api(libs.koin.core)
+
+        }
+
 
         dependencies {    ksp(libs.androidx.room.compiler)
 
