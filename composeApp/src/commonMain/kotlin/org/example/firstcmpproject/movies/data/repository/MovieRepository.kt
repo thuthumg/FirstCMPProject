@@ -20,10 +20,12 @@ import org.example.firstcmpproject.movies.data.vos.GenreVO
 import org.example.firstcmpproject.movies.data.vos.MovieVO
 import org.example.firstcmpproject.movies.network.api_service.ApiService
 import org.example.firstcmpproject.movies.network.impls.ApiServiceImpl
+import org.example.firstcmpproject.movies.persistence.daos.MovieDao
 
 class MovieRepository (
     private val apiService: ApiService,
-    private val appDatabase: AppDatabase
+   // private val appDatabase: AppDatabase
+    private val movieDao: MovieDao
 ){
 //    val apiService: ApiService = ApiServiceImpl
 //
@@ -35,8 +37,8 @@ class MovieRepository (
             val response = apiService.getNowPlayingMovies(1)
 
             launch {
-                appDatabase.movieDao().insertMovies(response?.results ?: listOf())
-                println("Movies from db ===> ${appDatabase.movieDao().getAllMovies()}")
+                movieDao.insertMovies(response?.results ?: listOf())
+                println("Movies from db ===> ${movieDao.getAllMovies()}")
             }
 
             return@withContext response?.results ?: listOf()
@@ -108,7 +110,7 @@ class MovieRepository (
 
 
             launch {
-                appDatabase.movieDao().insertSingleMovie(response)
+                movieDao.insertSingleMovie(response)
             }
 
             return@withContext response
@@ -116,11 +118,11 @@ class MovieRepository (
     }
 
     suspend fun getMovieDetailsFromDb(movieId : Long) : MovieVO?{
-        return appDatabase.movieDao().getMovieById(movieId)
+        return movieDao.getMovieById(movieId)
 
     }
 
      fun getMovieDetailsFromDbFlow(movieId : Long) : Flow<MovieVO?> {
-        return appDatabase.movieDao().getMovieByIdFlow(movieId)
+        return movieDao.getMovieByIdFlow(movieId)
      }
 }

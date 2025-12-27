@@ -20,7 +20,7 @@ data class MovieVO(
 
     @ColumnInfo(name = "backdrop_path")
     @SerialName("backdrop_path")
-    val backdropPath: String,
+    val backdropPath: String?,
 
 
     @ColumnInfo(name = "belongs_to_collection")

@@ -32,7 +32,7 @@ val sharedModule: Module = module {
     single<MovieRepository>{
         MovieRepository(
             apiService = get(),
-            appDatabase = get()
+            movieDao = get<AppDatabase>().movieDao()
         )
     }
     //viewModelOf(::HomeViewModel)
