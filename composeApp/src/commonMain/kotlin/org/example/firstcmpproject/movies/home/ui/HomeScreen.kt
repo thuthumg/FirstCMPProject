@@ -11,10 +11,12 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kotlinx.coroutines.flow.collectLatest
 import org.example.firstcmpproject.core.MARGIN_CARD_MEDIUM_2
 import org.example.firstcmpproject.core.MARGIN_MEDIUM
+import org.example.firstcmpproject.core.utils.CATEGORY_SECTION
 import org.example.firstcmpproject.movies.home.actions.HomeActions
 import org.example.firstcmpproject.movies.home.events.HomeEvents
 import org.example.firstcmpproject.movies.home.state.HomeState
@@ -69,7 +71,7 @@ fun HomeScreen(
             item {
                 //Movie Category
                 MovieCategorySection(modifier = Modifier
-                    .padding(start = MARGIN_CARD_MEDIUM_2))
+                    .padding(start = MARGIN_CARD_MEDIUM_2).testTag(CATEGORY_SECTION))
             }
 
             item {

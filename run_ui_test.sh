@@ -1,0 +1,1 @@
+ ./gradlew :composeApp:connectedAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=org.example.firstcmpproject.UITest

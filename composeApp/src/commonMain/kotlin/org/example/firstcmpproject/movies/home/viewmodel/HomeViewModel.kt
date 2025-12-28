@@ -9,6 +9,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.example.firstcmpproject.movies.data.repository.MovieRepository
+import org.example.firstcmpproject.movies.data.repository.MovieRepositoryImpl
 import org.example.firstcmpproject.movies.home.actions.HomeActions
 import org.example.firstcmpproject.movies.home.events.HomeEvents
 import org.example.firstcmpproject.movies.home.state.HomeState
@@ -43,19 +44,19 @@ class HomeViewModel(
             }
         }
 
-//        viewModelScope.launch {
-//            val moviesByGenre = movieRepository.getMoviesWithFirstFiveGenres()
-//            _state.update {
-//                it.copy(moviesByGenre = moviesByGenre)
-//            }
-//        }
-
         viewModelScope.launch {
-            val moviesByGenre = movieRepository.getMoviesWithFirstFiveGenresFlow()
+            val moviesByGenre = movieRepository.getMoviesWithFirstFiveGenres()
             _state.update {
                 it.copy(moviesByGenre = moviesByGenre)
             }
         }
+
+//        viewModelScope.launch {
+//            val moviesByGenre = movieRepository.getMoviesWithFirstFiveGenresFlow()
+//            _state.update {
+//                it.copy(moviesByGenre = moviesByGenre)
+//            }
+//        }
 
     }
 // reactive flow

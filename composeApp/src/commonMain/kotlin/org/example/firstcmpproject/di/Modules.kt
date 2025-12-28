@@ -6,13 +6,13 @@ import kotlinx.coroutines.IO
 import org.example.firstcmpproject.core.persistence.AppDatabase
 import org.example.firstcmpproject.core.persistence.DatabaseFactory
 import org.example.firstcmpproject.movies.data.repository.MovieRepository
+import org.example.firstcmpproject.movies.data.repository.MovieRepositoryImpl
 import org.example.firstcmpproject.movies.detail.viewmodel.MovieDetailsViewModel
 import org.example.firstcmpproject.movies.home.viewmodel.HomeViewModel
 import org.example.firstcmpproject.movies.network.api_service.ApiService
 import org.example.firstcmpproject.movies.network.impls.ApiServiceImpl
 import org.koin.core.module.Module
 import org.koin.core.module.dsl.viewModel
-import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
 
 expect val platformModule: Module
@@ -30,7 +30,7 @@ val sharedModule: Module = module {
         ApiServiceImpl()
     }
     single<MovieRepository>{
-        MovieRepository(
+        MovieRepositoryImpl(
             apiService = get(),
             movieDao = get<AppDatabase>().movieDao()
         )

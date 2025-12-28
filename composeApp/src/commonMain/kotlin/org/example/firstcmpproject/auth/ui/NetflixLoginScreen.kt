@@ -30,6 +30,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
@@ -49,6 +50,8 @@ import firstcmpproject.composeapp.generated.resources.password
 import firstcmpproject.composeapp.generated.resources.show
 import firstcmpproject.composeapp.generated.resources.sign_in
 import firstcmpproject.composeapp.generated.resources.use_a_sign_in_code
+import org.example.firstcmpproject.core.utils.EMAIL_OR_PHONE_TEXT_FIELD
+import org.example.firstcmpproject.core.utils.SIGN_IN_BUTTON
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -92,7 +95,7 @@ fun NetflixLoginScreen(onTapSignIn: () -> Unit) {
                         unfocusedTextColor = Color.White
 
                     ),
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier.fillMaxWidth().testTag(EMAIL_OR_PHONE_TEXT_FIELD)
                 )
 
                 //Password
@@ -138,7 +141,7 @@ fun NetflixLoginScreen(onTapSignIn: () -> Unit) {
                     colors = ButtonDefaults.buttonColors(
                         containerColor = Color(red = 83, green = 14, blue = 13),
                     ),
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier.fillMaxWidth().testTag(SIGN_IN_BUTTON)
                 ) {
                     Text(
                         stringResource(Res.string.sign_in),

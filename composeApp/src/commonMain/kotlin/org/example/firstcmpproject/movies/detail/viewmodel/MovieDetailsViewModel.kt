@@ -9,6 +9,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.example.firstcmpproject.movies.data.repository.MovieRepository
+import org.example.firstcmpproject.movies.data.repository.MovieRepositoryImpl
 import org.example.firstcmpproject.movies.detail.actions.DetailActions
 import org.example.firstcmpproject.movies.detail.events.DetailEvents
 import org.example.firstcmpproject.movies.detail.state.MovieDetailsState

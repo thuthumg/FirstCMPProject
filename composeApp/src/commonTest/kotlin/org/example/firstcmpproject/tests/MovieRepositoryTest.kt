@@ -8,7 +8,7 @@ import org.example.firstcmpproject.mock.data.mockGenres
 import org.example.firstcmpproject.mock.data.mockMovieDetails
 import org.example.firstcmpproject.mock.data.mockMoviesByGenre
 import org.example.firstcmpproject.mock.data.mockNowPlayingMovies
-import org.example.firstcmpproject.movies.data.repository.MovieRepository
+import org.example.firstcmpproject.movies.data.repository.MovieRepositoryImpl
 import org.example.firstcmpproject.movies.data.vos.GenreVO
 import org.example.firstcmpproject.movies.data.vos.MovieVO
 import org.example.firstcmpproject.movies.network.api_service.ApiService
@@ -22,7 +22,7 @@ import kotlin.test.assertTrue
 
 class MovieRepositoryTest {
 
-    private lateinit var repo: MovieRepository
+    private lateinit var repo: MovieRepositoryImpl
     private lateinit var dao: MovieDao
     private lateinit var apiService: ApiService
 
@@ -30,7 +30,7 @@ class MovieRepositoryTest {
     fun setUp(){
          dao = MockMovieDao()
         apiService = MockMovieApiService()
-        repo = MovieRepository(apiService = apiService, movieDao = dao)
+        repo = MovieRepositoryImpl(apiService = apiService, movieDao = dao)
     }
 
 
