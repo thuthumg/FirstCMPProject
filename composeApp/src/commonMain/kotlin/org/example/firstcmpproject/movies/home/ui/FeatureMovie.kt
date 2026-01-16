@@ -27,6 +27,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import coil3.compose.SubcomposeAsyncImage
@@ -38,6 +39,7 @@ import org.example.firstcmpproject.core.MARGIN_MEDIUM_2
 import org.example.firstcmpproject.core.MARGIN_MEDIUM_3
 import org.example.firstcmpproject.core.MARGIN_SMALL
 import org.example.firstcmpproject.core.TEXT_REGULAR_2X
+import org.example.firstcmpproject.core.utils.FEATURE_MOVIE_IMAGE
 import org.example.firstcmpproject.movies.MovieActionButton
 import org.example.firstcmpproject.movies.data.vos.MovieVO
 import org.jetbrains.compose.resources.painterResource
@@ -60,7 +62,7 @@ fun FeatureMovie(movieVO: MovieVO, onTapMovie: (Long) -> Unit) {
             modifier = Modifier.fillMaxSize().clip(RoundedCornerShape(MARGIN_CARD_MEDIUM_2))
                 .clickable {
                     onTapMovie(movieVO.id)
-                },
+                }.testTag(FEATURE_MOVIE_IMAGE),
             contentDescription = null,
             contentScale = ContentScale.Crop,
             loading = {

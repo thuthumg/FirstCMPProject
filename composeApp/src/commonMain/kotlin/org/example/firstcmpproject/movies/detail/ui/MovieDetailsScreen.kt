@@ -44,7 +44,10 @@ import org.example.firstcmpproject.movies.detail.state.MovieDetailsState
 import org.example.firstcmpproject.movies.detail.viewmodel.MovieDetailsViewModel
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.platform.testTag
 import kotlinx.coroutines.flow.collectLatest
+import org.example.firstcmpproject.core.utils.MOVIE_DETAIL_LAZY_COLUMN
+import org.example.firstcmpproject.core.utils.SIMILAR_MOVIE_GRID
 import org.example.firstcmpproject.movies.detail.actions.DetailActions
 import org.example.firstcmpproject.movies.detail.events.DetailEvents
 
@@ -95,7 +98,7 @@ fun MovieDetailsScreen(
     ){
 
         state.movieDetails?.let {
-            LazyColumn {
+            LazyColumn(modifier = Modifier.testTag(MOVIE_DETAIL_LAZY_COLUMN)) {
 
                 //Movie Image
                 item {
@@ -256,7 +259,7 @@ fun MovieDetailsScreen(
                         horizontalArrangement = Arrangement.spacedBy(MARGIN_MEDIUM),
                         modifier = Modifier.height(
                             (MOVIE_ITEM_HEIGHT+MARGIN_CARD_MEDIUM_2) * ((state.similarMovies.count() /3 ) +1)
-                        )
+                        ).testTag(SIMILAR_MOVIE_GRID)
                     ){
                         items(state.similarMovies){ it ->
                             MovieItem (

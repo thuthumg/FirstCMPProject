@@ -15,11 +15,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import org.example.firstcmpproject.core.MARGIN_MEDIUM
 import org.example.firstcmpproject.core.MARGIN_XLARGE
 import org.example.firstcmpproject.core.MARGIN_XXLARGE
+import org.example.firstcmpproject.core.utils.MOVIE_DETAIL_IMAGE
 import org.example.firstcmpproject.movies.data.vos.MovieVO
 
 @Composable
@@ -31,7 +33,7 @@ fun DetailMovieImage(
         AsyncImage(
             model = movieVO.getFullMoviePosterPath(),
             contentDescription = null,
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier.fillMaxSize().testTag(MOVIE_DETAIL_IMAGE),
             contentScale = ContentScale.Crop,
             // error = painterResource(Res.drawable.gladiator_photo)
         )

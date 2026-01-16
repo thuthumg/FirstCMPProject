@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.testTag
 import coil3.compose.AsyncImage
 import coil3.compose.SubcomposeAsyncImage
 import coil3.compose.SubcomposeAsyncImageContent
@@ -20,6 +21,7 @@ import org.example.firstcmpproject.core.MARGIN_CARD_MEDIUM_2
 import org.example.firstcmpproject.core.MARGIN_MEDIUM
 import org.example.firstcmpproject.core.MOVIE_ITEM_HEIGHT
 import org.example.firstcmpproject.core.MOVIE_ITEM_WIDTH
+import org.example.firstcmpproject.core.utils.SIMILAR_MOVIE_ITEM
 import org.example.firstcmpproject.movies.data.vos.MovieVO
 import org.example.firstcmpproject.movies.home.ui.ShimmerBox
 import org.jetbrains.compose.resources.painterResource
@@ -40,7 +42,7 @@ fun MovieItem(
                 .clip(RoundedCornerShape(MARGIN_MEDIUM))
                 .clickable{
                     onTapMovie(movieVO.id)
-                },
+                }.testTag("${SIMILAR_MOVIE_ITEM}_${movieVO.id}"),
             loading = {
                 // Composable to display while the image is loading
                 // CircularProgressIndicator(modifier = Modifier.size(30.dp))
