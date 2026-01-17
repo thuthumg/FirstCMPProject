@@ -125,7 +125,7 @@ fun MovieDetailsScreen(
                 //Movie Title
                 item {
                     DetailMovieTitle(
-                        it.title
+                        it.title ?: ""
                     )
                 }
 
@@ -161,7 +161,7 @@ fun MovieDetailsScreen(
                 //Spacer
                 item {
                     Text(
-                        it.overview,
+                        it.overview ?: "",
                         color = Color.White,
                         fontSize = TEXT_REGULAR,
                         modifier = Modifier.padding(

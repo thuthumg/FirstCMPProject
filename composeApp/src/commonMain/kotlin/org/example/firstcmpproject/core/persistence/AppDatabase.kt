@@ -17,7 +17,7 @@ import org.example.firstcmpproject.movies.persistence.type_converters.SpokenLang
 
 @Database(
     entities = [MovieVO::class],
-    version = 1,
+    version = 2,
     exportSchema = false
 )
 @TypeConverters(

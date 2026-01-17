@@ -15,7 +15,7 @@ data class MovieVO(
 
     @ColumnInfo(name = "adult")
     @SerialName("adult")
-    val adult: Boolean,
+    val adult: Boolean?,
 
 
     @ColumnInfo(name = "backdrop_path")
@@ -62,21 +62,21 @@ data class MovieVO(
 
     @ColumnInfo(name = "original_title")
     @SerialName("original_title")
-    val originalTitle: String,
+    val originalTitle: String?,
 
 
     @ColumnInfo(name = "overview")
     @SerialName("overview")
-    val overview: String,
+    val overview: String?,
 
 
     @ColumnInfo(name = "popularity")
     @SerialName("popularity")
-    val popularity: Double,
+    val popularity: Double?,
 
     @ColumnInfo(name = "poster_path")
     @SerialName("poster_path")
-    val posterPath: String,
+    val posterPath: String?,
 
 
     @ColumnInfo(name = "production_companies")
@@ -92,7 +92,7 @@ data class MovieVO(
 
     @ColumnInfo(name = "release_date")
     @SerialName("release_date")
-    val releaseDate: String,
+    val releaseDate: String?,
 
 
     @ColumnInfo(name = "revenue")
@@ -121,12 +121,12 @@ data class MovieVO(
 
     @ColumnInfo(name = "title")
     @SerialName("title")
-    val title: String,
+    val title: String?,
 
 
     @ColumnInfo(name = "video")
     @SerialName("video")
-    val video: Boolean,
+    val video: Boolean?,
 
     @ColumnInfo(name = "vote_average")
     @SerialName("vote_average")
@@ -148,7 +148,7 @@ data class MovieVO(
 
     // Extract only year (e.g., "2021")
     val year: String
-        get() = releaseDate.take(4)
+        get() = releaseDate?.take(4)  ?: ""
 
     // Convert runtime minutes → "Xh Ym" format
     val formattedRuntime: String

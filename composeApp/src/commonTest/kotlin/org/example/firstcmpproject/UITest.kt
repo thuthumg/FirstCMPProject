@@ -21,86 +21,100 @@ import kotlin.test.Test
 
 class UITest {
 
-//    @OptIn(ExperimentalTestApi::class)
-//    @Test
-//    fun loginScreen_emailTextFieldExists() = runComposeUiTest {
-//        setContent {
-//            App()
-//        }
-//
-//        onNodeWithTag(EMAIL_OR_PHONE_TEXT_FIELD).assertExists()
-//    }
-//
-//    @OptIn(ExperimentalTestApi::class)
-//    @Test
-//    fun fromLoginScreen_navigateToHomeScreen_categorySectionExists() = runComposeUiTest {
-//        setContent {
-//            App()
-//        }
-//
-//        onNodeWithTag(SIGN_IN_BUTTON).performClick()
-//        waitUntil (timeoutMillis = 10000){
-//            onNodeWithTag(CATEGORY_SECTION).isDisplayed()
-//        }
-//
-//        onNodeWithTag(CATEGORY_SECTION).assertExists()
-//    }
-//
-//    @OptIn(ExperimentalTestApi::class)
-//    @Test
-//    fun fromLoginScreen_navigateToHomeScreen_genreNameExists() = runComposeUiTest {
-//        setContent {
-//            App()
-//        }
-//
-//        onNodeWithTag(SIGN_IN_BUTTON).performClick()
-//        waitUntil (timeoutMillis = 10000){
-//            onNodeWithTag("${GENRE_NAME}-Action").isDisplayed()
-//        }
-//
-//        onNodeWithTag("${GENRE_NAME}-Action").assertExists()
-//    }
+    @OptIn(ExperimentalTestApi::class)
+    @Test
+    fun loginScreen_emailTextFieldExists() = runComposeUiTest {
+        setContent {
+            App()
+        }
 
+        onNodeWithTag(EMAIL_OR_PHONE_TEXT_FIELD).assertExists()
+    }
 
     @OptIn(ExperimentalTestApi::class)
     @Test
-    fun fromLoginScreen_navigateToMovieDetailScreen() = runComposeUiTest {
+    fun fromLoginScreen_navigateToHomeScreen_categorySectionExists() = runComposeUiTest {
         setContent {
             App()
         }
 
         onNodeWithTag(SIGN_IN_BUTTON).performClick()
-        waitUntil (timeoutMillis = 50000){
+        waitUntil (timeoutMillis = 10000){
+            onNodeWithTag(CATEGORY_SECTION).isDisplayed()
+        }
+
+        onNodeWithTag(CATEGORY_SECTION).assertExists()
+    }
+
+    @OptIn(ExperimentalTestApi::class)
+    @Test
+    fun fromLoginScreen_navigateToHomeScreen_genreNameExists() = runComposeUiTest {
+        setContent {
+            App()
+        }
+
+        onNodeWithTag(SIGN_IN_BUTTON).performClick()
+        waitUntil (timeoutMillis = 10000){
+            onNodeWithTag("${GENRE_NAME}-Action").isDisplayed()
+        }
+
+        onNodeWithTag("${GENRE_NAME}-Action").assertExists()
+    }
+
+
+    @OptIn(ExperimentalTestApi::class)
+    @Test
+    fun fromLoginScreen_navigateToMovieDetailScreen() = runComposeUiTest {
+        setContent { App() }
+
+        // 1) Login -> go to movie list
+        onNodeWithTag(SIGN_IN_BUTTON)
+            .assertExists()
+            .assertIsDisplayed()
+            .performClick()
+
+        // Wait featured movie appears
+        waitUntil(timeoutMillis = 70000) {
             onNodeWithTag(FEATURE_MOVIE_IMAGE).isDisplayed()
         }
-        onNodeWithTag(FEATURE_MOVIE_IMAGE).assertExists()
 
+        // 2) Tap featured movie -> navigate to details
+        onNodeWithTag(FEATURE_MOVIE_IMAGE)
+            .assertExists()
+            .assertIsDisplayed()
+            .performClick()
 
-        onNodeWithTag(FEATURE_MOVIE_IMAGE).performClick()
-        waitUntil (timeoutMillis = 50000){
+        // Wait details screen
+        waitUntil(timeoutMillis = 70000) {
             onNodeWithTag(MOVIE_DETAIL_IMAGE).isDisplayed()
             onNodeWithTag(MOVIE_NAME).isDisplayed()
-
-
         }
-        onNodeWithTag(MOVIE_DETAIL_IMAGE).assertExists()
-        onNodeWithTag(MOVIE_NAME).assertExists()
 
+        //Data Point 1: Detail Image
+        onNodeWithTag(MOVIE_DETAIL_IMAGE)
+            .assertExists()
+            .assertIsDisplayed()
 
-        // 1) Scroll to similar movie grid
+        //Data Point 2: Movie Name
+        onNodeWithTag(MOVIE_NAME)
+            .assertExists()
+            .assertIsDisplayed()
+
+        // 3) Scroll to Similar Movie Grid (Data Point 3)
         onNodeWithTag(MOVIE_DETAIL_LAZY_COLUMN)
+            .assertExists()
             .performScrollToNode(hasTestTag(SIMILAR_MOVIE_GRID))
 
+        //Data Point 3: Similar movie grid
         onNodeWithTag(SIMILAR_MOVIE_GRID)
             .assertExists()
             .assertIsDisplayed()
 
 
-        // 2) Ensure detail movie not inside similar list
-        val detailId = 83533 // known in fake data
+        val detailId = 83533
         onNodeWithTag("SIMILAR_MOVIE_ITEM_$detailId")
             .assertDoesNotExist()
-
-
     }
+
+
 }
